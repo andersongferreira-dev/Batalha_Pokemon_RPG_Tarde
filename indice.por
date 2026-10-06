@@ -20,6 +20,7 @@ programa {
 		cadeia nome_meu_pokemon = "Pikachu"
 		inteiro hp_meu_pokemon = 100
 		inteiro max_hp_meu_pokemon = 100
+		inteiro pocoes = 2
 		// Informações do pokémon inimigo
 		cadeia nome_pokemon_inimigo = "Gengar"
 		inteiro hp_pokemon_inimigo = 120
@@ -64,19 +65,40 @@ programa {
 		escreva(
 			">> ", nome_meu_pokemon, " causou ", dano, " de dano!\n"
 		)
-		escreva(
-			">> Hp restante de ", nome_pokemon_inimigo, ": ",hp_pokemon_inimigo,
-			"/", max_hp_pokemon_inimigo, "\n"
-		)
-		desenhar_cena(
-			nome_meu_pokemon,
-			hp_meu_pokemon,
-			max_hp_meu_pokemon,
-			nome_pokemon_inimigo,
-			hp_pokemon_inimigo,
-			max_hp_pokemon_inimigo,
-			nome_meu_pokemon + " causou " + dano + " de dano!"
-		)
+		/**
+		 * E - O operador lógico E só é verdadeiro se todas as condições forem verdadeiras
+		 * OU - Só é verdadeido desde que pelo menos uma condição seja verdadeira
+		 * NÃO - Ele inverte o valor lógico, se for verdadeiro, passa a ser falso e
+		 * virse-versa
+		 */
+		logico vitoria = (hp_pokemon_inimigo == 0) e (hp_pokemon_inimigo <= max_hp_pokemon_inimigo)
+		// Estrutura condiciona simples aceita as função do SE e SENAO
+		se(vitoria) {
+			desenhar_cena(
+				nome_meu_pokemon,
+				hp_meu_pokemon,
+				max_hp_meu_pokemon,
+				nome_pokemon_inimigo,
+				hp_pokemon_inimigo,
+				max_hp_pokemon_inimigo,
+				nome_pokemon_inimigo + " desmaiou! Você venceu!"
+			)
+		} senao {
+			logico posso_continuar = (hp_pokemon_inimigo > 0) ou (pocoes > 0)
+			desenhar_cena(
+				nome_meu_pokemon,
+				hp_meu_pokemon,
+				max_hp_meu_pokemon,
+				nome_pokemon_inimigo,
+				hp_pokemon_inimigo,
+				max_hp_pokemon_inimigo,
+				nome_meu_pokemon + " causou " + dano + " de dano!"
+			)
+			escreva(
+				">> ", nome_pokemon_inimigo, " ainda resiste com ", hp_pokemon_inimigo,
+				" HP. Posso continuar?", posso_continuar, "\n"
+			)
+		}
 		// A função aguarde irá executar a janela por 5 segundos
 		util.aguarde(5000)
     }
